@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h1>Manage Database</h1>
+    <h2>Raze Database</h2>
+    <div class="form-container">
+        <form id="raze-db-form" action="{{ url_for('admin_raze_db') }}" method="POST">
+            <input id="raze-db-submit-button" name="submit" type="submit" value="Raze!">
+        </form>
+    </div>
+{% endblock %}

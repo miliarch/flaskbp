@@ -1,0 +1,47 @@
+from datetime import datetime
+
+# Configure DB connection -  See: http://docs.sqlalchemy.org/en/latest/dialects
+
+db_driver = 'sqlite:///'
+db_username = None
+db_password = None
+db_host = None
+db_port = None
+db_name = 'db/app.db'
+
+if db_username:
+    db_uri = '{ct}://{u}:{pw}@{h}:{p}/{n}'.format(
+        ct=db_driver,
+        u=db_username,
+        pw=db_password,
+        h=db_host,
+        p=db_port,
+        n=db_name)
+else:
+    db_uri = '{ct}{n}'.format(ct=db_driver, n=db_name)
+
+SQLALCHEMY_DATABASE_URI = db_uri
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+# Debugging/key
+FLASK_DEBUG = True
+DEBUG = True
+RESET_DB = True
+SECRET_KEY = 'SOMETHING COMPLEX!'
+
+# Security
+SECURITY_PASSWORD_HASH = 'bcrypt'
+SECURITY_PASSWORD_SALT = 'SOMETHING COMPLEX!'
+SECURITY_TRACKABLE = True
+SECURITY_POST_LOGIN_VIEW = '/admin'
+
+# Setup
+YEAR = datetime.now().strftime('%Y')
+AUTHOR = 'The Author'
+SITE_TITLE = 'Site Title'
+SITE_TAGLINE = 'A suitable site tagline, or perhaps a purpose.'
+TEST_ADMIN_USER = 'admin'
+TEST_ADMIN_PASS = 'password'
+TEST_ADMIN_EMAIL = 'admin@example.com'
+TEST_ADMIN_FIRST_NAME = 'Admin'
+TEST_ADMIN_LAST_NAME = 'User'

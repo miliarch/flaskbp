@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <title>{{ config['SITE_TITLE'] }}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon/favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flashes">
+    {% for category, message in messages %}
+      <div class="{{ category }}">{{ message }}</div>
+    {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<body id="index" class="home">
+
+    <div id="header-wrapper">
+        <header id="banner" class="site-header">
+            <div id="himg">
+                <a href="{{ url_for('site_root') }}"><img src="{{ url_for('static', filename='img/site-logo.png') }}"></a>
+            </div>
+            <div id="htxt">
+                <h1>{{ config['SITE_TITLE'] }}</h1>
+                <h2>{{ config['SITE_TAGLINE'] }}</h2>
+            </div>
+        </header>
+    </div>
+
+    <div class="content-body">
+    {%- block body -%}{%- endblock -%}
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,13 @@
+version: '2'
+services:
+  app:
+    container_name: app_name
+    hostname: app
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: python3 /opt/app/run_dev.py
+    volumes:
+      - .:/opt/app
+    ports:
+      - 5000:5000
