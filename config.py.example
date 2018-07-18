@@ -2,12 +2,12 @@ from datetime import datetime
 
 # Configure DB connection -  See: http://docs.sqlalchemy.org/en/latest/dialects
 
-db_driver = 'sqlite:///'
-db_username = None
-db_password = None
-db_host = None
-db_port = None
-db_name = 'db/app.db'
+db_driver = 'mysql+pymysql'
+db_username = 'test'
+db_password = 'test'
+db_host = 'db'
+db_port = 3306
+db_name = 'test'
 
 if db_username:
     db_uri = '{ct}://{u}:{pw}@{h}:{p}/{n}'.format(
