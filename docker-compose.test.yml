@@ -1,0 +1,33 @@
+version: '3.6'
+services:
+  db:
+    image: flaskbp_db:latest
+    hostname: db
+    build:
+      context: ./containers/db
+      dockerfile: Dockerfile
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=583ad961ef5fdc85cf93d76326ba522e
+      - MYSQL_USER=test
+      - MYSQL_PASSWORD=test
+      - MYSQL_DATABASE=test
+    volumes:
+      - D:/Temp/test/mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ['CMD', 'nc', '-vz', 'localhost', '3306']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 0s
+  app:
+    image: flaskbp_app:latest
+    hostname: app
+    command: python3 /opt/app/run_dev.py
+    volumes:
+      - .:/opt/app
+    ports:
+      - 5000:5000
+    depends_on:
+      - db

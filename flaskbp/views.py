@@ -16,7 +16,8 @@ def site_root(path):
 @app.route('/hello')
 def hello():
     if current_user.is_authenticated:
-        payload = "Hello {}!".format(current_user.first_name)
+        name = current_user.first_name
+        payload = "Hello {}!".format(name)
     else:
         payload = "Hello World!"
     return render_template('hello.html', payload=payload)
