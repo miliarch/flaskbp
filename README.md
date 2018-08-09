@@ -10,7 +10,7 @@ docker-compose build
 ## Run containers
 
 ```
-docker stack deploy -c docker-compose.test.yml flaskbp
+docker stack deploy -c docker-compose.yml flaskbp
 ```
 
 ## Check health state
