@@ -21,7 +21,13 @@ Second, deploy the application:
 docker stack deploy -c docker-compose.yml flaskbp
 ```
 
-Finally, wait until containers indicate they are running and attempt connection to the application (usual http://localhost:5000 in a development environment)
+Third, check container status until they are running/available:
+
+```
+docker stack ps flaskbp
+```
+
+Finally, attempt connection to the application (usually http://localhost:5000 in a development environment)
 
 ## Check health state
 
