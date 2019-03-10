@@ -28,6 +28,11 @@ FLASK_DEBUG = True
 DEBUG = True
 RESET_DB = True
 SECRET_KEY = 'SOMETHING COMPLEX!'
+LOG_DIR = 'logs'
+if not Path(LOG_DIR).is_dir():
+    Path(LOG_DIR).mkdir()
+
+LOG_LEVEL = 'DEBUG'
 
 # Security
 SECURITY_PASSWORD_HASH = 'bcrypt'
