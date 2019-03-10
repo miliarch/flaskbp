@@ -1,6 +1,8 @@
+import logging
 from flask import Flask, Markup
 from flask_security import Security, SQLAlchemySessionUserDatastore
 from mistune import markdown
+from pathlib import Path
 from pytz import timezone
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -11,6 +13,32 @@ from werkzeug.contrib.fixers import ProxyFix
 app = Flask(__name__)
 app.config.from_object('config')
 app.wsgi_app = ProxyFix(app.wsgi_app, num_proxies=1)
+
+# Configure logging
+logfile = '{ld}/{ln}.log'.format(
+    ld=app.config['LOG_DIR'],
+    ln=__name__)
+
+# Instantiate logging
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+# Create file handler
+fh = logging.FileHandler(logfile)
+fh.setLevel(logging.DEBUG)
+
+# Create formatter
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+# Add formatter to file handler
+fh.setFormatter(formatter)
+
+# Add file handler to logger
+logger.addHandler(fh)
+
+# Log application startup
+log_str = '{} starting'.format(__name__)
+logger.info(log_str)
 
 # Configure and connect database
 db_engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'],
@@ -27,8 +55,10 @@ from .models import Role, User
 user_datastore = SQLAlchemySessionUserDatastore(db_session, User, Role)
 security = Security(app, user_datastore)
 
-if app.config['DEBUG'] and app.config['RESET_DB']:
+if app.config['DEBUG'] and app.config['RESET_DB']:  
     from .init_test_db import refresh_db
+    log_str = 'DEBUG and RESET_DB values are True, refreshing DB'
+    logger.debug(log_str)
     refresh_db()
 
 
