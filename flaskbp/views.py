@@ -11,7 +11,7 @@ from .models import Role, User
 def site_root(path):
     """ Catch all path, credit to Oli -http://flask.pocoo.org/snippets/57/ """
     log_str = 'redirect on catch-all path'
-    logger.debug(log_str)
+    logger.info(log_str)
     return redirect(url_for('hello'))
 
 

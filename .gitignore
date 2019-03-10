@@ -5,3 +5,4 @@ db/*
 config.py
 docker-compose.yml
 data/*
+logs/*
