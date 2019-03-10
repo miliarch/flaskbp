@@ -1,10 +1,10 @@
 FROM python:3.7.0-slim
 
-RUN apt-get update && apt-get install curl -y
-
 WORKDIR /opt/app
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY healthcheck.py ./
+COPY run_dev.py ./
+COPY config.py ./

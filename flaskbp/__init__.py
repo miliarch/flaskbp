@@ -54,10 +54,10 @@ security = Security(app, user_datastore)
 if app.config['DEBUG'] and app.config['RESET_DB']:  
     from .init_test_db import refresh_db
     log_str = 'DEBUG and RESET_DB values are True, refreshing DB'
-    app.logger.debug(log_str)
+    app.logger.info(log_str)
     refresh_db()
 
-
+app.logger.info('configuring formatting functions')
 def format_date_utc(dtobject, dtformat='%Y-%m-%d %H:%M:%S %Z (%z)'):
     utc = timezone('UTC')
     dtobject = utc.localize(dtobject, is_dst=None).astimezone(utc)
@@ -75,8 +75,10 @@ def format_date_pacific(dtobject, dtformat='%A %B %-m at %-I:%M %p %Z'):
 def parse_markdown(mdtext):
     return Markup(markdown(mdtext))
 
+app.logger.info('configuring jinja filters')
 app.jinja_env.filters['format_date_utc'] = format_date_utc
 app.jinja_env.filters['format_date_pacific'] = format_date_pacific
 app.jinja_env.filters['parse_markdown'] = parse_markdown
 
+app.logger.info('loading views')
 from flaskbp import views

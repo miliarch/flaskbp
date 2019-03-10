@@ -16,6 +16,7 @@ def create_test_admin_user():
             first_name=app.config['TEST_ADMIN_FIRST_NAME'],
             last_name=app.config['TEST_ADMIN_LAST_NAME'])
         db_session.commit()
+        db_session.close_all()
 
 
 def destroy_db():
