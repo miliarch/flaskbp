@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from sys import exc_info
+from sqlalchemy.exc import OperationalError
 from flask_security.utils import encrypt_password
 from flaskbp import app, db_engine, db_session, user_datastore, Base, logger
 
@@ -28,6 +29,9 @@ def destroy_db():
             log_str = 'dropping all tables'
             logger.debug(log_str)
             Base.metadata.drop_all(bind=db_engine)
+    except OperationalError as err:
+        log_str = 'OperationalError: {}'.format(err)
+        logger.error(log_str)
     except:
         logger.debug('unexpected error: {}'.format(exc_info()[0]))
 
