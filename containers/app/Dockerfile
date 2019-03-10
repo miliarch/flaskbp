@@ -1,6 +1,6 @@
 FROM python:3.7.0-slim
 
-RUN apt-get update && apt-get install netcat -y
+RUN apt-get update && apt-get install curl -y
 
 WORKDIR /opt/app
 

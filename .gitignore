@@ -4,3 +4,4 @@ db/*
 .DS_Store
 config.py
 docker-compose.yml
+data/*
