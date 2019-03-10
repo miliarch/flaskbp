@@ -1,4 +1,4 @@
-# FlaskBP - Flask Boilerplate
+# Flask Boilerplate (flaskbp)
 
 A boilerplate Flask application designed for use with docker swarm.
 
@@ -128,3 +128,9 @@ $ docker logs 796ead35ffc7
 [2019-03-10 18:13:04,959] DEBUG in init_test_db: dropping all tables
 [2019-03-10 18:13:05,007] ERROR in init_test_db: OperationalError: (pymysql.err.OperationalError) (2003, "Can't connect to MySQL server on 'db' ([Errno -2] Name or service not known)") (Background on this error at: http://sqlalche.me/e/e3q8)
 ```
+
+## About
+
+I've used [Flask](http://flask.pocoo.org/) in dozens of personal web projects. I've found that each time I start a Flask project, I inevitably spend hours searching for and improving upon existing solutions across my project base before I can even think about developing anything new.
+
+The goal of this project is to provide a functional, database connected, flask web application that's simple to deploy and ready for new development. This project is very much a work in progress, and subject to change without notice.
