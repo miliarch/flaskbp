@@ -19,26 +19,22 @@ logfile = '{ld}/{ln}.log'.format(
     ld=app.config['LOG_DIR'],
     ln=__name__)
 
-# Instantiate logging
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-
 # Create file handler
 fh = logging.FileHandler(logfile)
 fh.setLevel(logging.DEBUG)
 
 # Create formatter
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter('[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s')
 
 # Add formatter to file handler
 fh.setFormatter(formatter)
 
 # Add file handler to logger
-logger.addHandler(fh)
+app.logger.addHandler(fh)
 
 # Log application startup
 log_str = '{} starting'.format(__name__)
-logger.info(log_str)
+app.logger.info(log_str)
 
 # Configure and connect database
 db_engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'],
@@ -58,7 +54,7 @@ security = Security(app, user_datastore)
 if app.config['DEBUG'] and app.config['RESET_DB']:  
     from .init_test_db import refresh_db
     log_str = 'DEBUG and RESET_DB values are True, refreshing DB'
-    logger.debug(log_str)
+    app.logger.debug(log_str)
     refresh_db()
 
 

@@ -2,7 +2,7 @@ from flask import url_for, render_template, redirect, flash, request, Markup, \
     jsonify
 from flask_security import login_required, current_user
 from slugify import slugify
-from flaskbp import app, user_datastore, security, db_session, logger
+from flaskbp import app, user_datastore, security, db_session
 from .models import Role, User
 
 
@@ -10,15 +10,15 @@ from .models import Role, User
 @app.route('/<path:path>')
 def site_root(path):
     """ Catch all path, credit to Oli -http://flask.pocoo.org/snippets/57/ """
-    log_str = 'redirect on catch-all path'
-    logger.info(log_str)
+    log_str = 'redirect on catch-all path: {}'.format(request.path)
+    app.logger.info(log_str)
     return redirect(url_for('hello'))
 
 
 @app.route('/hello')
 def hello():
     log_str = 'hello world!'
-    logger.debug(log_str)
+    app.logger.debug(log_str)
     if current_user.is_authenticated:
         name = current_user.first_name
         payload = "Hello {}!".format(name)
