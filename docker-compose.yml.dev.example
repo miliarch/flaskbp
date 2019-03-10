@@ -4,20 +4,21 @@ services:
     image: flaskbp_app:latest
     hostname: app
     build:
-      context: ./containers/app
-      dockerfile: Dockerfile
-    command: python3 /opt/app/run_dev.py
+      context: .
+      dockerfile: ./containers/app/Dockerfile
+    command: python3 /opt/app/run_app.py
     networks:
       - frontend
       - backend
     volumes:
-      - .:/opt/app
+      - ./flaskbp:/opt/app/flaskbp
+      - ./logs:/opt/app/logs
     ports:
       - 5000:5000
     depends_on:
       - db
     healthcheck:
-      test: ['CMD', 'curl', '--fail', 'http://localhost:5000/']
+      test: ['CMD', 'python3', '/opt/app/healthcheck.py']
       interval: 30s
       timeout: 5s
       retries: 3
@@ -26,8 +27,8 @@ services:
     image: flaskbp_db:latest
     hostname: db
     build:
-      context: ./containers/db
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./containers/db/Dockerfile
     ports:
       - 3306
     environment:
