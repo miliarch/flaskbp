@@ -41,7 +41,7 @@ $ docker swarm init
 
 For more information on Docker Swarm, see [Swarm mode overview](https://docs.docker.com/engine/swarm/).
 
-## Dev stack setup
+## Dev stack setup and usage
 
 First, clone this repository and ensure your current working directory is the project root path (the dir this README.md file exists in):
 
