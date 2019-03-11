@@ -1,6 +1,6 @@
 # Flask Boilerplate (flaskbp)
 
-A boilerplate Flask application designed for use with docker swarm.
+A boilerplate [Flask](http://flask.pocoo.org/) application designed for use with [Docker Swarm](https://docs.docker.com/engine/swarm/).
 
 ## Features
 
@@ -131,6 +131,6 @@ $ docker logs 796ead35ffc7
 
 ## About
 
-I've used [Flask](http://flask.pocoo.org/) in dozens of personal web projects. I've found that each time I start a Flask project, I inevitably spend hours searching for and improving upon existing solutions across my project base before I can even think about developing anything new.
+I've used Flask in dozens of personal web projects. I've found that each time I start a Flask project, I inevitably spend hours searching for and improving upon existing solutions across my project base before I can even think about developing anything new.
 
 The goal of this project is to provide a functional, database connected, flask web application that's simple to deploy and ready for new development. This project is very much a work in progress, and subject to change without notice.
