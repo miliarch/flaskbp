@@ -5,12 +5,12 @@ from pathlib import Path
 
 
 def search_replace_within_file(path_obj, search_str, replace_str):
-    with open(path_obj, 'r') as f:
+    with open(path_obj, 'r', encoding='utf8') as f:
         contents = f.read()
 
     contents = contents.replace(search_str, replace_str)
 
-    with open(path_obj, 'w') as f:
+    with open(path_obj, 'w', encoding='utf8') as f:
         f.write(contents)
 
 
@@ -40,13 +40,16 @@ def main():
     # Rename flaskbp dir to app_name
     os.rename('flaskbp', app_name)
 
-    # Find python files to update references in
-    python_files = list(base_dir.glob('*.py'))
-    python_files.extend(list(base_dir.glob('*/*.py')))
+    # Gather file list to act on
+    file_list = []
+    file_list.extend(list(base_dir.glob('*.py')))
+    file_list.extend(list(base_dir.glob('*/*.py')))
+    file_list.extend(list(base_dir.glob('containers/*/*')))
+    file_list.extend(list(base_dir.glob('docker-compose*')))
 
-    for pf in python_files:
-        if __file__[2:] not in str(pf):
-            search_replace_within_file(pf, 'flaskbp', app_name)
+    for f in file_list:
+        if __file__[2:] not in str(f):
+            search_replace_within_file(f, 'flaskbp', app_name)
 
 
 if __name__ == '__main__':
