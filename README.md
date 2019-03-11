@@ -11,7 +11,7 @@ A boilerplate [Flask](http://flask.pocoo.org/) application designed for use with
 
 ## Prerequisites
 
-[Docker Engine 18.02.0+](https://github.com/docker/docker-ce/releases/tag/v18.02.0-ce-rc1) or later and [docker-compose 1.20.0](https://github.com/docker/compose/releases/tag/1.20.0-rc1) or later are required to successfully build and manage containers. Additionally, the deployment host must belong to a docker swarm.
+[Docker Engine 18.02.0](https://github.com/docker/docker-ce/releases/tag/v18.02.0-ce-rc1) or later and [docker-compose 1.20.0](https://github.com/docker/compose/releases/tag/1.20.0-rc1) or later are required to successfully build and manage containers. Additionally, the deployment host must belong to a docker swarm.
 
 Docker installation documentation can be found at the following links:
 * [Install Docker](https://docs.docker.com/install/)
