@@ -21,24 +21,24 @@ def main():
     # Identify application name (parent dir name) for use later
     app_name = base_dir.resolve().stem
 
-    # Check if default name (funnyman) exists in base_dir
-    funnyman_present = True if list(base_dir.glob('funnyman')) != [] else False
+    # Check if default name (flaskbp) exists in base_dir
+    flaskbp_present = True if list(base_dir.glob('flaskbp')) != [] else False
 
     # Check if parent dir name matches a child dir
     app_name_present = True if list(base_dir.glob(app_name)) != [] else False
 
-    # Flag work needed when funnyman child path exists and mismatches parent dir
-    work_needed = True if funnyman_present and not app_name_present else False
+    # Flag work needed when flaskbp child path exists and mismatches parent dir
+    work_needed = True if flaskbp_present and not app_name_present else False
 
     if not work_needed:
         help_str = 'Nothing to do!\n'
-        help_str += '\tfunnyman_present: {}\n'.format(funnyman_present)
+        help_str += '\tflaskbp_present: {}\n'.format(flaskbp_present)
         help_str += '\tapp_name_present: {}'.format(app_name_present)
         print(help_str)
         sys.exit(2)
 
-    # Rename funnyman dir to app_name
-    os.rename('funnyman', app_name)
+    # Rename flaskbp dir to app_name
+    os.rename('flaskbp', app_name)
 
     # Find python files to update references in
     python_files = list(base_dir.glob('*.py'))
