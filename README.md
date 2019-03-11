@@ -67,7 +67,7 @@ $ mkdir data
 $ mkdir logs
 ```
 
-At this point, we can build the container images:
+At this point, you can build the container images:
 
 ```
 $ docker-compose build
