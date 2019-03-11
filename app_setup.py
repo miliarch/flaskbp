@@ -45,8 +45,8 @@ def main():
     python_files.extend(list(base_dir.glob('*/*.py')))
 
     for pf in python_files:
-        search_replace_within_file(pf, 'flaskbp', app_name)
-
+        if __file__[2:] not in str(pf):
+            search_replace_within_file(pf, 'flaskbp', app_name)
 
 
 if __name__ == '__main__':
