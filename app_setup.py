@@ -37,7 +37,7 @@ def rename_app(app_name):
     except OSError as err:
         sys.exit(err)
     except Exception as e:
-        print('{}\n{}'.format(type(e), e))
+        print(f'{type(e)}\n{e}')
 
 
 def main():
@@ -70,27 +70,27 @@ def main():
         for f in file_list:
             if f.name not in blacklist_files:
                 # Imports
-                da_str = 'from {} import'.format(dist_app_name)
-                an_str = 'from {} import'.format(app_name)
-                replace_within_file(f, da_str, an_str)
+                dan_str = f'from {dist_app_name} import'
+                an_str = f'from {app_name} import'
+                replace_within_file(f, dan_str, an_str)
 
-                da_str = 'import {}'.format(dist_app_name)
-                an_str = 'import {}'.format(app_name)
-                replace_within_file(f, da_str, an_str)
+                dan_str = f'import {dist_app_name}'
+                an_str = f'import {app_name}'
+                replace_within_file(f, dan_str, an_str)
 
                 # Common trailing patterns
                 trailing = ['.', ':', '_', '/']
                 for i in trailing:
-                    da_str = '{}{}'.format(dist_app_name, i)
-                    an_str = '{}{}'.format(app_name, i)
-                    replace_within_file(f, da_str, an_str)
+                    dan_str = f'{dist_app_name}{i}'
+                    an_str = f'{app_name}{i}'
+                    replace_within_file(f, dan_str, an_str)
 
                 # Common leading patterns
                 leading = ['/', 'COPY ']
                 for i in leading:
-                    da_str = '{}{}'.format(i, dist_app_name)
-                    an_str = '{}{}'.format(i, app_name)
-                    replace_within_file(f, da_str, an_str)
+                    dan_str = f'{i}{dist_app_name}'
+                    an_str = f'{i}{app_name}'
+                    replace_within_file(f, dan_str, an_str)
 
 
 
