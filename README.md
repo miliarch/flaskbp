@@ -11,6 +11,12 @@ A boilerplate [Flask](http://flask.pocoo.org/) application designed for use with
 
 ## Prerequisites
 
+### Python
+
+Setup scripts are written in Python and require Python version 3.4 at minimum - the pathlib module was released in version 3.4 and is used extensively. All modules used in setup scripts are provided by the Python standard library. 
+
+### Docker
+
 [Docker Engine 18.02.0](https://github.com/docker/docker-ce/releases/tag/v18.02.0-ce-rc1) or later and [docker-compose 1.20.0](https://github.com/docker/compose/releases/tag/1.20.0-rc1) or later are required to successfully build and manage containers. Additionally, the deployment host must belong to a docker swarm.
 
 Docker installation documentation can be found at the following links:
@@ -43,53 +49,87 @@ For more information on Docker Swarm, see [Swarm mode overview](https://docs.doc
 
 ## Dev stack setup and usage
 
-First, clone this repository and ensure your current working directory is the project root path (the dir this README.md file exists in):
+### Clone this repository:
 
 ```
-$ pwd
-/flaskbp
-
-$ ls README.md
-README.md
+$ git clone https://github.com/miliarch/flaskbp.git myproject
+Cloning into 'myproject'...
 ```
 
-Example app config and docker-compose files are available as `config.py.example` and `docker-compose.yml.dev.example`. Copy these files to establish a valid configuration:
+Note: Cloning to a project path with a different name than `flaskbp` isn't required, but is supported in the rename portion of the `app_setup_dev.py` script.
+
+### Change directory to the project root:
 
 ```
-$ cp docker-compose.yml.dev.example docker-compose.yml
-$ cp config.py.example config.py
+$ cd myproject/
 ```
 
-Ensure `data` and `logs` directories exist, as default configuration relies on them:
+### Run the `app_setup_dev.py` script:
 
 ```
-$ mkdir data
-$ mkdir logs
+$ ./app_setup_dev.py
+Renaming /tmp/myproject/flaskbp to /tmp/myproject/myproject
+
+Replacing references to flaskbp in files:
+  - /tmp/myproject/run_app.py
+  - /tmp/myproject/myproject/__init__.py
+  - /tmp/myproject/myproject/init_test_db.py
+  - /tmp/myproject/myproject/views.py
+  - /tmp/myproject/myproject/models.py
+  - /tmp/myproject/containers/app/healthcheck.py
+  - /tmp/myproject/containers/app/Dockerfile
+  - /tmp/myproject/containers/app/requirements.txt
+  - /tmp/myproject/containers/db/Dockerfile
+  - /tmp/myproject/docker-compose.yml.dev.example
+
+Copying config example files:
+  + /tmp/myproject/docker-compose.yml.dev.example -> /tmp/myproject/docker-compose.yml
+  + /tmp/myproject/config.py.example -> /tmp/myproject/config.py
+
+Creating default directories:
+  + /tmp/myproject/data created
+  + /tmp/myproject/logs created
+
+DONE
 ```
 
-At this point, you can build the container images:
+As shown in the output above, this script renames the nested `flaskbp` directory to match the parent project directory name, replaces references to `flaskbp` in project files, copies example configuration files to the correct location, and creates required directories for the development environment
+
+### Build the container images:
 
 ```
 $ docker-compose build
 ```
 
-Once build completes, start the stack:
+### Start the stack:
 
 ```
-$ docker stack deploy -c docker-compose.yml flaskbp
+$ docker stack deploy -c docker-compose.yml <stackname>
 ```
 
-Once started, stack containers will start and abort repeatedly until health checks pass. It generally takes around 2 minutes for the dev stack to reach a healthy state. More on checking status in the next section.
+Note: Replace `<stackname>` with whatever name you'd like the stack to have. You'll need to use this name to control the stack later on, so it should mean something to you. 
+
+### Wait for the stack to stabilize
+
+Once started, stack containers will start and abort repeatedly until health checks pass. It generally takes around 2 minutes for the dev stack to reach a healthy state. Skip to the *Checking stack status/health* section for more info on viewing stack status and diagnosing issues.
+
+### Connect to the application and start programming
+
+Default development configuration shares the project directory with the app container, and runs the built-in Flask web server in debug mode. This allows for on-the-fly changes to project files, which will automatically prompt restart of the web server. This reduces time to test changes during development, as the app container doesn't need to be rebuilt and redeployed after each change.
+
+You can connect to the application by visiting [http://localhost:5000](http://localhost:5000) in your web browser.
+
+### Stop the stack
 
 Run the following command when you're ready to stop the stack and purge containers:
 
 ```
-$ docker stack rm flaskbp
+$ docker stack rm <stackname>
 ```
 
 ## Checking stack status/health
 
-Keep an eye out for deployment problems with `docker stack ps flaskbp`. A stable running deployment should look something like this:
+Keep an eye out for deployment problems with `docker stack ps <stackname>`. A stable running deployment should look something like this:
 
 ```
 $ docker stack ps flaskbp
@@ -102,7 +142,7 @@ rz66ybqzw526        flaskbp_db.1        flaskbp_db:latest    linuxkit-0250000000
 zb4yesvswvvd        flaskbp_app.1       flaskbp_app:latest   linuxkit-025000000001   Shutdown            Failed 3 hours ago    "task: non-zero exit (1)"
 ```
 
-NOTE: It's normal for `flaskbp_app` to fail multiple times before `flaskbp_db` enters a healthy running state, and stabilize after.
+NOTE: It's normal for the `<projectname>_app` container to fail multiple times before `<projectname>_db` enters a healthy running state, and stabilize after.
 
 You can use `docker ps -a`, `docker inspect` and `docker logs` commands to learn more about container health status and the cause of any crashes:
 
