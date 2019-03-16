@@ -49,7 +49,7 @@ For more information on Docker Swarm, see [Swarm mode overview](https://docs.doc
 
 ## Dev stack setup and usage
 
-### Clone this repository:
+### Clone this repository
 
 ```
 $ git clone https://github.com/miliarch/flaskbp.git myproject
@@ -58,13 +58,13 @@ Cloning into 'myproject'...
 
 Note: Cloning to a project path with a different name than `flaskbp` isn't required, but is supported in the rename portion of the `app_setup_dev.py` script.
 
-### Change directory to the project root:
+### Change directory to the project root
 
 ```
 $ cd myproject/
 ```
 
-### Run the `app_setup_dev.py` script:
+### Run the `app_setup_dev.py` script
 
 ```
 $ ./app_setup_dev.py
@@ -95,13 +95,13 @@ DONE
 
 As shown in the output above, this script renames the nested `flaskbp` directory to match the parent project directory name, replaces references to `flaskbp` in project files, copies example configuration files to the correct location, and creates required directories for the development environment
 
-### Build the container images:
+### Build the container images
 
 ```
 $ docker-compose build
 ```
 
-### Start the stack:
+### Start the stack
 
 ```
 $ docker stack deploy -c docker-compose.yml <stackname>
