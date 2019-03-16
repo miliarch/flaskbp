@@ -23,7 +23,7 @@ def copy_file(original_path, target_path, overwrite=False):
     """ Copy original_path to target_path """
     if overwrite or not target_path.exists():
         try:
-            shutil.copy(original_path, target_path)
+            shutil.copy(str(original_path), str(target_path))
             return True
         except IOError as err:
             sys.exit(err)
@@ -34,7 +34,7 @@ def copy_file(original_path, target_path, overwrite=False):
 def rename_app(old_path, new_path):
     """ Rename old_path to new_path """
     try:
-        os.rename(old_path, new_path)
+        os.rename(str(old_path), str(new_path))
     except OSError as err:
         sys.exit(err)
     except Exception as e:
@@ -43,12 +43,12 @@ def rename_app(old_path, new_path):
 
 def replace_within_file(file_path, search_str, replace_str):
     """ Replace search_str with replace_str within file_path """
-    with open(file_path, 'r', encoding='utf8') as f:
+    with open(str(file_path), 'r', encoding='utf8') as f:
         contents = f.read()
 
     contents = contents.replace(search_str, replace_str)
 
-    with open(file_path, 'w', encoding='utf8') as f:
+    with open(str(file_path), 'w', encoding='utf8') as f:
         f.write(contents)
 
 
