@@ -5,28 +5,25 @@ import sys
 from pathlib import Path
 
 
-def check_if_rename_needed(base_dir, dist_app_name, app_name):
+def check_if_rename_needed(base_dir, old_path, new_path):
     """ Compare parent and child directories to identify if a rename is
     necessary
     """
     dirs = []
-    dirs.extend([d.stem for d in base_dir.glob(dist_app_name)])
-    dirs.extend([d.stem for d in base_dir.glob(app_name)])
+    dirs.extend([d.name for d in base_dir.glob(old_path.name)])
+    dirs.extend([d.name for d in base_dir.glob(new_path.name)])
 
-    if dist_app_name in dirs and app_name not in dirs:
+    if old_path.name in dirs and new_path.name not in dirs:
         return True
     else:
         return False
 
 
-def copy_file(original, target, overwrite=False):
-    """ Copy file original to target """
-    original = Path(original)
-    target = Path(target)
-
-    if overwrite or not target.exists():
+def copy_file(original_path, target_path, overwrite=False):
+    """ Copy original_path to target_path """
+    if overwrite or not target_path.exists():
         try:
-            shutil.copy(original.name, target.name)
+            shutil.copy(original_path, target_path)
             return True
         except IOError as err:
             sys.exit(err)
@@ -34,24 +31,24 @@ def copy_file(original, target, overwrite=False):
         return False
 
 
-def rename_app(dist_app_name, app_name):
-    """ Rename ./<dist_app_name> to ./<app_name> """
+def rename_app(old_path, new_path):
+    """ Rename old_path to new_path """
     try:
-        os.rename(dist_app_name, app_name)
+        os.rename(old_path, new_path)
     except OSError as err:
         sys.exit(err)
     except Exception as e:
         sys.exit(f'{type(e)}\n{e}')
 
 
-def replace_within_file(path_obj, search_str, replace_str):
-    """ Replace search_string with replace_str within path_obj file """
-    with open(path_obj, 'r', encoding='utf8') as f:
+def replace_within_file(file_path, search_str, replace_str):
+    """ Replace search_str with replace_str within file_path """
+    with open(file_path, 'r', encoding='utf8') as f:
         contents = f.read()
 
     contents = contents.replace(search_str, replace_str)
 
-    with open(path_obj, 'w', encoding='utf8') as f:
+    with open(file_path, 'w', encoding='utf8') as f:
         f.write(contents)
 
 
@@ -63,14 +60,18 @@ def main():
     dist_app_name = 'flaskbp'
 
     # Identify application name (parent dir name)
-    app_name = base_dir.resolve().stem
+    app_name = base_dir.resolve().name
 
     # Check if rename is needed
-    rename_needed = check_if_rename_needed(base_dir, dist_app_name, app_name)
+    old_path = Path(f'{base_dir}/{dist_app_name}')
+    new_path = Path(f'{base_dir}/{app_name}')
+    rename_needed = check_if_rename_needed(base_dir, old_path, new_path)
 
     # Rename routine
     if rename_needed:
-        rename_app(dist_app_name, app_name)
+        status_str = f'Renaming {old_path} to {new_path}\n'
+        print(status_str)
+        rename_app(old_path, new_path)
 
         # Define files to exclude (exact file name match)
         blacklist_files = [
@@ -125,16 +126,17 @@ def main():
     status_str = "Copying config example files:"
     print(status_str)
     for key in config_file_map.keys():
-        success = copy_file(key, config_file_map[key])
-        success_str = '+ ' if success else 'X '
+        original_path = Path(f'{base_dir}/{key}')
+        target_path = Path(f'{base_dir}/{config_file_map[key]}')
+        success = copy_file(original_path, target_path)
+        success_str = '  + ' if success else '  X '
         if success:
-            success_str += f'{key} -> {config_file_map[key]}'
+            success_str += f'{original_path} -> {target_path}'
         else:
-            success_str += f'{config_file_map[key]} could not be created'
+            success_str += f'{target_path} could not be created '
             success_str += f'(file exists or other error)'
         print(f'{success_str}')
     print()
-
 
     # Create data and logs directories
     new_dirs = [
@@ -145,15 +147,15 @@ def main():
     status_str = f'Creating default directories:'
     print(status_str)
     for d in new_dirs:
-        d = Path(d)
+        d = Path(f'{base_dir}/{d}')
         status_str = ''
         try:
             d.mkdir()
-            status_str += f'+ {d.resolve()} created'
+            status_str += f'  + {d} created'
         except FileExistsError as err:
-            status_str += f'X {d.resolve()} could not be created ({err})'
+            status_str += f'  X {d} could not be created ({err})'
         except Exception as e:
-            status_str += f'X {d.resolve()} could not be created ({e})'
+            status_str += f'  X {d} could not be created ({e})'
         print(status_str)
     print()
 
