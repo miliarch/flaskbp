@@ -142,7 +142,7 @@ rz66ybqzw526        flaskbp_db.1        flaskbp_db:latest    linuxkit-0250000000
 zb4yesvswvvd        flaskbp_app.1       flaskbp_app:latest   linuxkit-025000000001   Shutdown            Failed 3 hours ago    "task: non-zero exit (1)"
 ```
 
-NOTE: It's normal for the `<projectname>_app` container to fail multiple times before `<projectname>_db` enters a healthy running state, and stabilize after.
+NOTE: It's normal for the `<stackname>_app` container to fail multiple times before `<stackname>_db` enters a healthy running state, and stabilize after.
 
 You can use `docker ps -a`, `docker inspect` and `docker logs` commands to learn more about container health status and the cause of any crashes:
 
