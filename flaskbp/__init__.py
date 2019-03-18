@@ -51,7 +51,7 @@ from .models import Role, User
 user_datastore = SQLAlchemySessionUserDatastore(db_session, User, Role)
 security = Security(app, user_datastore)
 
-if app.config['DEBUG'] and app.config['RESET_DB']:  
+if app.config['DEBUG'] and app.config['RESET_DB']:
     from .init_test_db import refresh_db
     log_str = 'DEBUG and RESET_DB values are True, refreshing DB'
     app.logger.info(log_str)
