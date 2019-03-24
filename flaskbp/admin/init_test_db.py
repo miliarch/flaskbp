@@ -2,7 +2,7 @@
 from sys import exc_info
 from sqlalchemy.exc import OperationalError
 from flask_security.utils import encrypt_password
-from flaskbp import app, db_engine, db_session, user_datastore, Base
+from .. import app, db_engine, db_session, user_datastore, Base
 
 
 def create_test_admin_user():
@@ -47,10 +47,10 @@ def init_db():
 
 
 def refresh_db():
-    log_str = 'running refresh routine'
+    log_str = 'running db refresh routine'
     app.logger.info(log_str)
     destroy_db()
     init_db()
     create_test_admin_user()
-    log_str = 'refresh routine complete'
+    log_str = 'db refresh routine complete'
     app.logger.info(log_str)

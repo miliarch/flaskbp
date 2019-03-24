@@ -2,7 +2,7 @@ from flask_security import UserMixin, RoleMixin
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy import Boolean, DateTime, Column, Integer, \
     String, Text, ForeignKey
-from flaskbp import Base
+from . import Base
 
 
 class RolesUsers(Base):
